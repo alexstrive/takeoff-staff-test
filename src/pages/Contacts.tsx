@@ -30,7 +30,7 @@ function renderRow(props: ListChildComponentProps) {
           <Avatar alt="User avatar" src={contact.avatar} />
         </ListItemAvatar>
         <ListItemText
-          primary={`${contact.first_name} ${contact.last_name}`}
+          primary={`${contact.firstName} ${contact.lastName}`}
           secondary={contact.email}
         />
       </ListItemButton>
@@ -58,8 +58,8 @@ export default function Contacts() {
 
     return contactsData.filter(
       (contact) =>
-        contact.first_name.toLowerCase().includes(searchQuery) ||
-        contact.last_name.toLowerCase().includes(searchQuery) ||
+        contact.firstName.toLowerCase().includes(searchQuery) ||
+        contact.lastName.toLowerCase().includes(searchQuery) ||
         contact.email.toLowerCase().includes(searchQuery) ||
         contact.phone.toLowerCase().includes(searchQuery)
     );

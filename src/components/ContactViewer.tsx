@@ -114,97 +114,94 @@ function EditContact({
   }
 
   return (
-    <>
-      <Box component="form" onSubmit={handleSave}>
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
+    <Box component="form" onSubmit={handleSave}>
+      <CardContent>
+        <Typography gutterBottom variant="h5" component="div">
+          <TextField
+            defaultValue={firstName}
+            margin="dense"
+            id="first_name"
+            name="first_name"
+            label="First Name"
+            variant="outlined"
+            size="small"
+          />{' '}
+          <TextField
+            defaultValue={lastName}
+            margin="dense"
+            id="last_name"
+            name="last_name"
+            label="Last Name"
+            variant="outlined"
+            size="small"
+          />
+        </Typography>
+        <List>
+          <ListItem disablePadding>
             <TextField
-              defaultValue={firstName}
-              margin="dense"
-              id="first_name"
-              name="first_name"
-              label="First Name"
-              variant="outlined"
-              size="small"
-            />{' '}
-            <TextField
-              defaultValue={lastName}
-              margin="dense"
-              id="last_name"
-              name="last_name"
-              label="Last Name"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Email />
+                  </InputAdornment>
+                ),
+              }}
+              sx={{ width: 400 }}
+              defaultValue={email}
+              margin="normal"
+              id="email"
+              name="email"
+              label="Email"
               variant="outlined"
               size="small"
             />
-          </Typography>
-          <List>
-            <ListItem disablePadding>
-              <TextField
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Email />
-                    </InputAdornment>
-                  ),
-                }}
-                sx={{ width: 400 }}
-                defaultValue={email}
-                margin="normal"
-                id="email"
-                name="email"
-                label="Email"
-                variant="outlined"
-                size="small"
-              />
-            </ListItem>
-            <ListItem disablePadding>
-              <TextField
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <LocalPhone />
-                    </InputAdornment>
-                  ),
-                }}
-                margin="normal"
-                sx={{ width: 400 }}
-                defaultValue={phone}
-                id="phone"
-                name="phone"
-                label="Phone number"
-                variant="outlined"
-                size="small"
-              />
-            </ListItem>
-          </List>
-        </CardContent>
-        <CardActions>
-          <Button size="medium" variant="contained" type="submit">
-            Save
-          </Button>
-          <Button size="medium" color="error" onClick={handleDelete}>
-            Delete
-          </Button>
-        </CardActions>
-      </Box>
-    </>
+          </ListItem>
+          <ListItem disablePadding>
+            <TextField
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <LocalPhone />
+                  </InputAdornment>
+                ),
+              }}
+              margin="normal"
+              sx={{ width: 400 }}
+              defaultValue={phone}
+              id="phone"
+              name="phone"
+              label="Phone number"
+              variant="outlined"
+              size="small"
+            />
+          </ListItem>
+        </List>
+      </CardContent>
+      <CardActions>
+        <Button size="medium" variant="contained" type="submit">
+          Save
+        </Button>
+        <Button size="medium" color="error" onClick={handleDelete}>
+          Delete
+        </Button>
+      </CardActions>
+    </Box>
   );
 }
 
 export default function ContactViewer() {
   const [isEditMode, setIsEditMode] = useState(false);
   const { contactId } = useParams<{ contactId: string }>();
-  const contactIdNum = Number.parseInt(contactId ?? '');
-  const contactsData = useSelector((state: RootState) => state.contacts.data);
-  const selectedContact = contactsData.filter(
-    (contact) => contact.id == contactIdNum
+  const data = useSelector((state: RootState) => state.contacts.data);
+  const contact = data.filter(
+    (contact) => contact.id == Number.parseInt(contactId!)
   )[0];
 
   const contactValues = {
-    firstName: selectedContact.first_name,
-    lastName: selectedContact.last_name,
-    email: selectedContact.email,
-    phone: selectedContact.phone,
+    firstName: contact.firstName,
+    lastName: contact.lastName,
+    email: contact.email,
+    phone: contact.phone,
   };
 
   function handleModeChange(changedMode: boolean) {
@@ -217,12 +214,12 @@ export default function ContactViewer() {
         <CardMedia
           component="img"
           height="300"
-          image={selectedContact.bigAvatar}
+          image={contact.bigAvatar}
           alt="Avatar"
         />
         {isEditMode ? (
           <EditContact
-            contactId={selectedContact.id}
+            contactId={contact.id}
             contactValues={contactValues}
             onModeChange={handleModeChange}
           />

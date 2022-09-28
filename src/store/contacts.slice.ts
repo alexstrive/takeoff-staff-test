@@ -28,8 +28,8 @@ export const contactsSlice = createSlice({
     createContact(state) {
       state.data.push({
         id: globalNextAvailableContactId,
-        first_name: 'New',
-        last_name: 'Contact',
+        firstName: 'New',
+        lastName: 'Contact',
         phone: '+7',
         email: 'example@gmail.com',
         avatar:
@@ -60,8 +60,8 @@ export const contactsSlice = createSlice({
       const { firstName, lastName, phone, email } =
         action.payload.updatedValues;
 
-      state.data[targetContactIndex].first_name = firstName;
-      state.data[targetContactIndex].last_name = lastName;
+      state.data[targetContactIndex].firstName = firstName;
+      state.data[targetContactIndex].lastName = lastName;
       state.data[targetContactIndex].email = email;
       state.data[targetContactIndex].phone = phone;
     },
